@@ -1,50 +1,42 @@
 import React, { useState } from 'react';
 import { HelpCircle } from 'lucide-react';
 
-interface TooltipProps {
-  term: string;
-  definition: string;
+type TooltipTerm = 'SKU' | 'Кабинеты' | 'Честный знак' | 'УПД' | 'RBAC';
+
+interface TermWithTooltipProps {
+  term: TooltipTerm;
 }
 
-const tooltipDefinitions: Record<string, string> = {
-  'SKU': 'Stock Keeping Unit - уникальный идентификатор товара. Каждый товар с разными характеристиками имеет свой SKU.',
-  'Кабинеты': 'Личные кабинеты на маркетплейсах (Wildberries, Ozon и др.), через которые вы управляете продажами.',
-  'Честный знак': 'Система маркировки товаров. Обязательна для определенных категорий товаров (обувь, одежда и др.).',
-  'УПД': 'Универсальный передаточный документ - документ, объединяющий накладную и счет-фактуру.',
-  'RBAC': 'Role-Based Access Control - система управления доступом на основе ролей пользователей.'
+const tooltipContent: Record<TooltipTerm, string> = {
+  'SKU': 'Stock Keeping Unit - уникальный идентификатор товара в системе учета',
+  'Кабинеты': 'Личные кабинеты на маркетплейсах для управления товарами и заказами',
+  'Честный знак': 'Система маркировки и прослеживания товаров в России',
+  'УПД': 'Универсальный передаточный документ - документ для оформления передачи товаров',
+  'RBAC': 'Role-Based Access Control - управление доступом на основе ролей пользователей',
 };
 
-export const Tooltip: React.FC<TooltipProps> = ({ term, definition }) => {
+export const TermWithTooltip: React.FC<TermWithTooltipProps> = ({ term }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
-    <span className="relative inline-block">
+    <span className="relative inline-flex items-center gap-1">
+      <span>{term}</span>
       <button
         type="button"
+        className="inline-flex items-center justify-center group"
         onMouseEnter={() => setIsVisible(true)}
         onMouseLeave={() => setIsVisible(false)}
-        onClick={() => setIsVisible(!isVisible)}
-        className="inline-flex items-center justify-center ml-1 text-muted-foreground hover:text-primary transition-colors"
+        onFocus={() => setIsVisible(true)}
+        onBlur={() => setIsVisible(false)}
       >
-        <HelpCircle className="w-4 h-4" />
+        <HelpCircle className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
       </button>
       
       {isVisible && (
-        <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-foreground text-background rounded-lg shadow-lg text-sm">
-          <div className="font-medium mb-1">{term}</div>
-          <div className="text-xs opacity-90">{definition}</div>
-          <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-foreground" />
+        <div className="absolute left-0 top-full mt-2 z-50 w-64 p-3 bg-popover text-popover-foreground text-sm rounded-lg border border-border shadow-lg">
+          {tooltipContent[term]}
         </div>
       )}
     </span>
-  );
-};
-
-export const TermWithTooltip: React.FC<{ term: keyof typeof tooltipDefinitions }> = ({ term }) => {
-  return (
-    <>
-      {term}
-      <Tooltip term={term} definition={tooltipDefinitions[term]} />
-    </>
   );
 };

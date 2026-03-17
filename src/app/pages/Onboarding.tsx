@@ -144,7 +144,7 @@ const Step1: React.FC<any> = ({ data, updateData }) => {
   const roles = [
     { id: 'owner', label: 'Владелец бизнеса', icon: Building2 },
     { id: 'manager', label: 'Менеджер / Руководитель', icon: Users },
-    { id: 'specialist', label: 'Специалист склада', icon: Package },
+    { id: 'specialist', label: 'Фульфилмент', icon: Package },
     { id: 'other', label: 'Другое', icon: Users },
   ];
 
@@ -182,7 +182,7 @@ const Step2: React.FC<any> = ({ data, updateData }) => {
   const sizes = [
     { id: '1', label: 'Только я', description: 'Индивидуальный предприниматель' },
     { id: '2-5', label: '2-5 человек', description: 'Малая команда' },
-    { id: '6-20', label: '6-20 человек', description: 'Средняя команда' },
+    { id: '6-20', label: '6-20 человек', description: 'Средн��я команда' },
     { id: '20+', label: 'Более 20', description: 'Крупная команда' },
   ];
 

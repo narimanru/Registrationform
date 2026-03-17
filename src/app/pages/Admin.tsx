@@ -105,10 +105,10 @@ export const Admin: React.FC = () => {
       date: '17.03.2026',
     },
     {
-      id: 3,
+      id: '2',
       name: 'Алексей Иванов',
       email: 'alexey@example.com',
-      role: 'Специалист склада',
+      role: 'Фульфилмент',
       teamSize: '1',
       skuCount: '1-100',
       platforms: 'Wildberries',
@@ -222,7 +222,7 @@ export const Admin: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {kpiData.map((kpi, index) => (
                 <div
-                  key={index}
+                  key={`kpi-${kpi.label}-${index}`}
                   className="bg-card border border-border rounded-2xl p-6"
                 >
                   <div className="flex items-start justify-between mb-4">
@@ -283,7 +283,7 @@ export const Admin: React.FC = () => {
                       dataKey="value"
                     >
                       {platformDistribution.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
+                        <Cell key={`cell-${entry.name}-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
                     <Tooltip />
@@ -330,7 +330,7 @@ export const Admin: React.FC = () => {
                   const dropoffPercent = index > 0 ? ((dropoff / funnelData[index - 1].value) * 100).toFixed(1) : 0;
                   
                   return (
-                    <div key={index} className="space-y-2">
+                    <div key={`funnel-${item.name}-${index}`} className="space-y-2">
                       <div className="flex items-center justify-between text-sm">
                         <span className="font-medium">{item.name}</span>
                         <div className="flex items-center gap-4">

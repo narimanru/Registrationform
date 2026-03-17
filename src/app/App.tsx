@@ -1,13 +1,11 @@
 import { RouterProvider } from 'react-router';
-import { SurveyProvider } from './context/SurveyContext';
 import { router } from './routes';
-import { Toaster } from 'sonner';
+import { OnboardingProvider } from './context/OnboardingContext';
 
 export default function App() {
   return (
-    <SurveyProvider>
+    <OnboardingProvider>
       <RouterProvider router={router} />
-      <Toaster position="top-right" />
-    </SurveyProvider>
+    </OnboardingProvider>
   );
 }

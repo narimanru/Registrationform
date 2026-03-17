@@ -12,6 +12,12 @@ export interface SurveyData {
   fulfillment?: string;
   telegram?: string;
   email?: string;
+  // Step 7: Business details
+  storeName?: string;
+  organizationType?: 'individual' | 'legal'; // ИП или Юр.лицо
+  inn?: string;
+  shortSellerName?: string;
+  shortAddress?: string;
   currentStep: number;
   lastStep: number;
   status: 'in_progress' | 'completed' | 'closed' | 'skipped';
@@ -135,8 +141,8 @@ export const SURVEY_QUESTIONS: SurveyQuestion[] = [
   },
   {
     id: 7,
-    title: 'Как с вами связаться?',
-    description: 'Для важных уведомлений и поддержки',
+    title: 'Завершение регистрации',
+    description: 'Заполните данные вашей компании',
     type: 'text'
   }
 ];

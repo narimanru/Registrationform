@@ -85,7 +85,15 @@ export const SurveyStepPage: React.FC = () => {
       case 6:
         return !!surveyData.fulfillment;
       case 7:
-        return !!surveyData.telegram || !!surveyData.email;
+        // Required fields: storeName, organizationType, inn, shortSellerName, shortAddress, telegram or email
+        return !!(
+          surveyData.storeName &&
+          surveyData.organizationType &&
+          surveyData.inn &&
+          surveyData.shortSellerName &&
+          surveyData.shortAddress &&
+          (surveyData.telegram || surveyData.email)
+        );
       default:
         return true;
     }
@@ -359,28 +367,106 @@ export const SurveyStepPage: React.FC = () => {
           <div className="space-y-6">
             <div>
               <h2 className="text-3xl font-semibold text-foreground mb-2">
-                Как с вами связаться?
+                Завершение регистрации
               </h2>
               <p className="text-muted-foreground">
-                Для важных уведомлений и поддержки
+                Заполните данные вашей компании
               </p>
             </div>
             
-            <div className="space-y-4">
+            <div className="space-y-6">
+              {/* Название магазина */}
               <Input
-                label="Telegram"
-                placeholder="@username или +7..."
-                value={surveyData.telegram || ''}
-                onChange={(e) => updateSurveyData({ telegram: e.target.value })}
+                label="Название магазина"
+                placeholder="Название вашего магазина"
+                value={surveyData.storeName || ''}
+                onChange={(e) => updateSurveyData({ storeName: e.target.value })}
+                helperText="Отображается в каталоге"
               />
-              
+
+              {/* Тип организации */}
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-3">
+                  Тип организации
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => updateSurveyData({ organizationType: 'individual' })}
+                    className={`p-4 rounded-xl border-2 transition-all text-left ${
+                      surveyData.organizationType === 'individual'
+                        ? 'border-primary bg-primary/5'
+                        : 'border-border hover:border-primary/50'
+                    }`}
+                  >
+                    <div className="font-medium text-foreground">ИП</div>
+                    <div className="text-sm text-muted-foreground mt-1">Индивидуальный предприниматель</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => updateSurveyData({ organizationType: 'legal' })}
+                    className={`p-4 rounded-xl border-2 transition-all text-left ${
+                      surveyData.organizationType === 'legal'
+                        ? 'border-primary bg-primary/5'
+                        : 'border-border hover:border-primary/50'
+                    }`}
+                  >
+                    <div className="font-medium text-foreground">Юр.лицо</div>
+                    <div className="text-sm text-muted-foreground mt-1">Юридическое лицо</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* ИНН */}
               <Input
-                label="Email (необязательно)"
-                type="email"
-                placeholder="your@email.com"
-                value={surveyData.email || ''}
-                onChange={(e) => updateSurveyData({ email: e.target.value })}
+                label="ИНН"
+                placeholder="1234567890"
+                value={surveyData.inn || ''}
+                onChange={(e) => updateSurveyData({ inn: e.target.value })}
+                helperText="Нужен для идентификации пользователя"
+                maxLength={12}
               />
+
+              {/* Короткое наименование продавца */}
+              <Input
+                label="Короткое наименование продавца"
+                placeholder="Иванов И.И."
+                value={surveyData.shortSellerName || ''}
+                onChange={(e) => updateSurveyData({ shortSellerName: e.target.value })}
+                helperText="Нужно для печати этикеток"
+              />
+
+              {/* Короткий юридический адрес */}
+              <Input
+                label="Короткий юридический адрес"
+                placeholder="г. Москва, ул. Ленина, д. 1"
+                value={surveyData.shortAddress || ''}
+                onChange={(e) => updateSurveyData({ shortAddress: e.target.value })}
+                helperText="Для печати этикеток"
+              />
+
+              {/* Контакты */}
+              <div className="pt-4 border-t border-border">
+                <h3 className="text-lg font-semibold text-foreground mb-4">
+                  Контакты для связи
+                </h3>
+                <div className="space-y-4">
+                  <Input
+                    label="Telegram"
+                    placeholder="@username или +7..."
+                    value={surveyData.telegram || ''}
+                    onChange={(e) => updateSurveyData({ telegram: e.target.value })}
+                  />
+                  
+                  <Input
+                    label="Email (необязательно)"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={surveyData.email || ''}
+                    onChange={(e) => updateSurveyData({ email: e.target.value })}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         );

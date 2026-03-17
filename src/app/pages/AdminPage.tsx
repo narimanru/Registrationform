@@ -20,7 +20,7 @@ const funnelData = [
   { step: 'Цели', users: 912, percentage: 83.7 },
   { step: 'Масштаб', users: 891, percentage: 81.8 },
   { step: 'Фулфилмент', users: 878, percentage: 80.6 },
-  { step: 'Контакты', users: 867, percentage: 79.6 }
+  { step: 'Регистрация', users: 867, percentage: 79.6 }
 ];
 
 const rolesData = [
@@ -44,6 +44,9 @@ const responsesData = [
   {
     id: 1,
     email: 'user1@example.com',
+    storeName: 'Магазин "Товары для дома"',
+    organizationType: 'legal' as const,
+    inn: '7743013902',
     status: 'completed',
     lastStep: 7,
     lastActivity: '2026-03-08 14:30',
@@ -52,6 +55,9 @@ const responsesData = [
   {
     id: 2,
     email: 'user2@example.com',
+    storeName: 'ИП Иванов',
+    organizationType: 'individual' as const,
+    inn: '773401390245',
     status: 'in_progress',
     lastStep: 4,
     lastActivity: '2026-03-08 13:45',
@@ -60,6 +66,9 @@ const responsesData = [
   {
     id: 3,
     email: 'user3@example.com',
+    storeName: null,
+    organizationType: null,
+    inn: null,
     status: 'closed',
     lastStep: 2,
     lastActivity: '2026-03-08 12:20',
@@ -68,6 +77,9 @@ const responsesData = [
   {
     id: 4,
     email: 'user4@example.com',
+    storeName: 'Бренд "Стиль"',
+    organizationType: 'legal' as const,
+    inn: '5027145630',
     status: 'completed',
     lastStep: 7,
     lastActivity: '2026-03-08 11:15',
@@ -287,6 +299,15 @@ export const AdminPage: React.FC = () => {
                         Email
                       </th>
                       <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">
+                        Название магазина
+                      </th>
+                      <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">
+                        Тип
+                      </th>
+                      <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">
+                        ИНН
+                      </th>
+                      <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">
                         Статус
                       </th>
                       <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">
@@ -295,9 +316,6 @@ export const AdminPage: React.FC = () => {
                       <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">
                         Последняя активность
                       </th>
-                      <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">
-                        Источник
-                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -305,6 +323,16 @@ export const AdminPage: React.FC = () => {
                       <tr key={response.id} className="border-b border-border hover:bg-muted/30 transition-colors">
                         <td className="py-4 px-4 text-sm text-foreground">
                           {response.email}
+                        </td>
+                        <td className="py-4 px-4 text-sm text-foreground">
+                          {response.storeName || '—'}
+                        </td>
+                        <td className="py-4 px-4 text-sm text-foreground">
+                          {response.organizationType === 'individual' ? 'ИП' : 
+                           response.organizationType === 'legal' ? 'Юр.лицо' : '—'}
+                        </td>
+                        <td className="py-4 px-4 text-sm text-foreground font-mono">
+                          {response.inn || '—'}
                         </td>
                         <td className="py-4 px-4">
                           <span
@@ -320,9 +348,6 @@ export const AdminPage: React.FC = () => {
                         </td>
                         <td className="py-4 px-4 text-sm text-muted-foreground">
                           {response.lastActivity}
-                        </td>
-                        <td className="py-4 px-4 text-sm text-muted-foreground capitalize">
-                          {response.source}
                         </td>
                       </tr>
                     ))}
